@@ -13,6 +13,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.delete("/tasks/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const task = await Task.findByIdAndDelete(id);
+
+    res.status(200).json(task);
+  } catch (e) {
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
 app.get("/tasks/:id", async (req, res) => {
   try {
     const { id } = req.params;
